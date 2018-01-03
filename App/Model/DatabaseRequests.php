@@ -16,9 +16,7 @@ interface DatabaseRequests
 
     public function logout(int $userID);
 
-    public function register(Users $user);
-
-    public function editUserData(int $userID, string $userPassword);
+    public function register(array $userInfo);
 
     public function borrowBook(int $bookID, int $userID);
 

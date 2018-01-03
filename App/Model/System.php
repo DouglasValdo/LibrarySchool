@@ -8,12 +8,18 @@
 
 namespace Library\System;
 
-
 use Library\DatabaseRequests\DatabaseRequests;
-use Library\Users\Users;
+use Library\SessionHandler\SessionHandler;
+use Library\DatabaseQuery\DatabaseQuery;
 
 class System implements DatabaseRequests
 {
+    private $databaseQuery;
+
+    public function __construct()
+    {
+        $this->databaseQuery = new DatabaseQuery();
+    }
 
     private function bookStatus($status)
     {
@@ -22,37 +28,28 @@ class System implements DatabaseRequests
 
     public function login(string $userName, string $userPassword)
     {
-        // TODO: Implement login() method.
+
     }
 
     public function logout(int $userID)
     {
-        // TODO: Implement logout() method.
+        $currentUser = SessionHandler::call("read", array("sessionID" => $userID));
+
+        if(!is_null($currentUser))
+            return SessionHandler::call("delete", array("sessionID" => $userID));
+        return false;
     }
 
-    public function register(Users $user)
+    public function register(array $userInfo)
     {
         // TODO: Implement register() method.
     }
 
-    public function editUserData(int $userID)
-    {
-        // TODO: Implement editUserData() method.
-    }
+
 
     public function borrowBook(int $bookID, int $userID)
     {
         // TODO: Implement borrowBook() method.
-    }
-
-    public function deleteAccount(int $userID)
-    {
-        // TODO: Implement deleteAccount() method.
-    }
-
-    public function viewBook()
-    {
-        // TODO: Implement viewBook() method.
     }
 
     public function listBooks()
@@ -65,7 +62,17 @@ class System implements DatabaseRequests
         // TODO: Implement booksCategory() method.
     }
 
-    public function searchBook()
+    public function deleteAccount(int $userID, string $userPassword)
+    {
+        // TODO: Implement deleteAccount() method.
+    }
+
+    public function viewBook(int $bookID)
+    {
+        // TODO: Implement viewBook() method.
+    }
+
+    public function searchBook(string $bookName)
     {
         // TODO: Implement searchBook() method.
     }

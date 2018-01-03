@@ -16,8 +16,18 @@ class LibraryFunctions
         return password_hash($password, PASSWORD_DEFAULT);
     }
 
-    public function verifyPassword($password, $passwordHashed):bool
+    public static function verifyPassword($userPassword, $passwordHashed):bool
     {
-        return password_verify($password, $passwordHashed);
+        return password_verify($userPassword, $passwordHashed);
+    }
+
+    public static function dateInterval($borrowDate)
+    {
+
+        $borrowedDate = new \DateTime($borrowDate);
+        $todayDate   = new  \DateTime("now",\DateTimeZone::EUROPE);
+
+        return $borrowedDate > $todayDate;
     }
 }
+

@@ -10,12 +10,11 @@ namespace Library\DatabaseQuery;
 
 require_once "DatabaseRequests.php";
 require_once "DatabaseConnection.php";
-require_once "User.php";
+require_once "LibraryFunctions.php";
 
 use Library\DatabaseConnection\DatabaseConnection;
 use Library\DatabaseRequests\DatabaseRequests;
-use Library\Users\Users;
-use Library\SessionHandler\SessionHandler;
+use Library\LibraryFunctions\LibraryFunctions;
 
 class DatabaseQuery implements DatabaseRequests
 {
@@ -35,53 +34,47 @@ class DatabaseQuery implements DatabaseRequests
     }
 
 
-    public function login(string $userName, string $userPassword)
+    public function login(string $userName, string $userPassword):bool
     {
-        $queryLogin = "call login(:userName, :userPassword)";
+        $queryLogin = "call login(:userName)";
 
         $queryResponse = $this->databaseRequest->prepare($queryLogin);
 
-        $queryResponse->execute(array(":userName"=>$userName, ":userPassword" => $userPassword));
+        $queryResponse->execute(array(":userName"=>$userName));
 
-        return ($queryResponse->rowCount()) ? $queryResponse->fetch(): null;
+        if($queryResponse->rowCount()) {
+
+            $userDatabaseData = $queryResponse->fetch();
+            $userDatabaseHashPassword = $userDatabaseData["userPassword"];
+
+            if(LibraryFunctions::verifyPassword($userPassword, $userDatabaseHashPassword))
+                return true;
+            else
+                return false;
+        }
+
+        else
+            return false;
     }
 
-    public function logout(int $userID)
+    public function register(array $userInfo)
     {
-        $currentUser = SessionHandler::call("read", array("sessionID" => $userID));
+        if($this->login($userInfo["userName"], $userInfo["userPassword"]))
+            die();
 
-        if(!is_null($currentUser))
-            return SessionHandler::call("delete", array("sessionID" => $userID));
-        return false;
-    }
-
-    public function register(Users $user)
-    {
         $queryRegister = "call register(:userName, :userPassword, 
         :userProfileBackground, :userBooksPreferences)";
 
         $queryResponse = $this->databaseRequest->prepare($queryRegister);
 
-        $userInfo = array(":userName" => $user->getUserName(),
-            ":userPassword" => $user->getUserPassword(),
-            ":userProfileBackground" => $user->getUserProfileBackground(),
-            ":userBooksPreferences" => $user->getUserBooksPreferences());
+        $userInfo = array(":userName" => $userInfo["userName"],
+            ":userPassword" => LibraryFunctions::createPassword($userInfo["userPassword"]),
+            ":userProfileBackground" => $userInfo["userProfileBackground"],
+            ":userBooksPreferences" => $userInfo["userBooksPreferences"]);
 
         $queryResponse->execute($userInfo);
 
         return ($queryResponse->rowCount())? true: false;
-    }
-
-    public function editUserData(int $userID, string $userPassword)
-    {
-        $queryEditProfile = "call editUserProfile(:userID, :userPassword)";
-
-        $queryResponse = $this->databaseRequest->prepare($queryEditProfile);
-
-        $queryResponse->execute(array(":userID" =>$userID, ":userPassword" => $userPassword));
-
-        return ($queryResponse->rowCount()) ? true: false;
-
     }
 
     public function borrowBook(int $bookID, int $userID)
@@ -152,4 +145,13 @@ class DatabaseQuery implements DatabaseRequests
             $queryResponse->fetchAll(\PDO::FETCH_OBJ): false;
 
     }
+
+    public function logout(int $userID)
+    {
+        // TODO: Implement logout() method.
+    }
 }
+
+$test = new DatabaseQuery();
+
+var_dump($test->login("DouglasValdo", "douglas.,valdo"));
