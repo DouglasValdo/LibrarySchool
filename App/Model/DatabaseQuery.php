@@ -37,9 +37,9 @@ class DatabaseQuery implements DatabaseRequests
 
     public function login(string $userName, string $userPassword)
     {
-        $query = "call login(:userName, :userPassword)";
+        $queryLogin = "call login(:userName, :userPassword)";
 
-        $queryResponse = $this->databaseRequest->prepare($query);
+        $queryResponse = $this->databaseRequest->prepare($queryLogin);
 
         $queryResponse->execute(array(":userName"=>$userName, ":userPassword" => $userPassword));
 
@@ -51,48 +51,106 @@ class DatabaseQuery implements DatabaseRequests
         $currentUser = SessionHandler::call("read", array("sessionID" => $userID));
 
         if(!is_null($currentUser))
-            SessionHandler::call("delete", array("sessionID" => $userID));
-
+            return SessionHandler::call("delete", array("sessionID" => $userID));
+        return false;
     }
 
     public function register(Users $user)
     {
+        $queryRegister = "call register(:userName, :userPassword, 
+        :userProfileBackground, :userBooksPreferences)";
 
+        $queryResponse = $this->databaseRequest->prepare($queryRegister);
+
+        $userInfo = array(":userName" => $user->getUserName(),
+            ":userPassword" => $user->getUserPassword(),
+            ":userProfileBackground" => $user->getUserProfileBackground(),
+            ":userBooksPreferences" => $user->getUserBooksPreferences());
+
+        $queryResponse->execute($userInfo);
+
+        return ($queryResponse->rowCount())? true: false;
     }
 
-    public function editUserData(int $userID)
+    public function editUserData(int $userID, string $userPassword)
     {
-        // TODO: Implement editUserData() method.
+        $queryEditProfile = "call editUserProfile(:userID, :userPassword)";
+
+        $queryResponse = $this->databaseRequest->prepare($queryEditProfile);
+
+        $queryResponse->execute(array(":userID" =>$userID, ":userPassword" => $userPassword));
+
+        return ($queryResponse->rowCount()) ? true: false;
+
     }
 
     public function borrowBook(int $bookID, int $userID)
     {
-        // TODO: Implement borrowBook() method.
+        $queryBorrowBook = "call borrowBook(:bookID, :userID)";
+
+        $queryResponse = $this->databaseRequest->prepare($queryBorrowBook);
+
+        $queryResponse->execute(array(":bookID" => $bookID, ":userID" => $userID));
+
+        return ($queryResponse->rowCount())? true: false;
     }
 
-    public function deleteAccount(int $userID)
+    public function deleteAccount(int $userID, string $userPassword)
     {
-        // TODO: Implement deleteAccount() method.
+        $queryDeleteAccount = "deleteAccount(:userID, :userPassword)";
+
+        $queryResponse = $this->databaseRequest->prepare($queryDeleteAccount);
+
+        $queryResponse->execute($queryDeleteAccount);
+
+        return ($queryResponse->rowCount())? true: false;
     }
 
-    public function viewBook()
+    public function viewBook(int $bookID)
     {
-        // TODO: Implement viewBook() method.
+        $queryViewBook = "call viewBook(:bookID)";
+
+        $queryResponse = $this->databaseRequest->prepare($queryViewBook);
+
+        $queryResponse->execute(array(":bookID" => $bookID));
+
+        return ($queryResponse->rowCount())? true: false;
     }
 
     public function listBooks()
     {
-        // TODO: Implement listBooks() method.
+        $queryListBooks = "call listBooks()";
+
+        $queryResponse = $this->databaseRequest->prepare($queryListBooks);
+
+        $queryResponse->execute();
+
+        return ($queryResponse->rowCount())?
+            $queryResponse->fetchAll(\PDO::FETCH_OBJ): false;
     }
 
     public function booksCategory()
     {
-        // TODO: Implement booksCategory() method.
+        $queryBooksCategory = "call booksCategory()";
+
+        $queryResponse = $this->databaseRequest->prepare($queryBooksCategory);
+
+        $queryResponse->execute();
+
+        return (bool) $queryResponse->rowCount();
     }
 
-    public function searchBook()
+    public function searchBook(string $bookName)
     {
-        // TODO: Implement searchBook() method.
+        $querySearch = "call searchBook(:bookName)";
+
+        $queryResponse = $this->databaseRequest->prepare($querySearch);
+
+        $queryResponse->execute(array(":bookName" => $bookName));
+
+        return ($queryResponse->rowCount())?
+            $queryResponse->fetchAll(\PDO::FETCH_OBJ): false;
+
     }
 }
 

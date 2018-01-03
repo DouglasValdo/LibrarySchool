@@ -18,19 +18,19 @@ interface DatabaseRequests
 
     public function register(Users $user);
 
-    public function editUserData(int $userID);
+    public function editUserData(int $userID, string $userPassword);
 
     public function borrowBook(int $bookID, int $userID);
 
-    public function deleteAccount(int $userID);
+    public function deleteAccount(int $userID, string $userPassword);
 
-    public function viewBook();
+    public function viewBook(int $bookID);
 
     public function listBooks();
 
     public function booksCategory();
 
-    public function searchBook();
+    public function searchBook(string $bookName);
 
 }
 

@@ -36,7 +36,7 @@ abstract class Users
     /**
      * @return array
      */
-    public function getUserPreferences():array
+    public function getUserBooksPreferences():array
     {
         return $this->userBooksPreferences;
     }
