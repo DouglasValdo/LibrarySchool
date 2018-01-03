@@ -1,2 +1,2 @@
 # LibrarySchool
-Library Project from School.
+Library Project from School `Library School`.
