@@ -153,7 +153,3 @@ class DatabaseQuery implements DatabaseRequests
 
     }
 }
-
-$test = new DatabaseQuery();
-
-var_dump($test);
