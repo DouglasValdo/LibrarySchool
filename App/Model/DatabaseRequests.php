@@ -30,6 +30,8 @@ interface DatabaseRequests
 
     public function searchBook(string $bookName);
 
+    public function userInfo(int $userID);
+
 }
 
 

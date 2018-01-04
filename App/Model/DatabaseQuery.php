@@ -34,6 +34,17 @@ class DatabaseQuery implements DatabaseRequests
     }
 
 
+    public function isBookAvailable($bookID)
+    {
+        $queryBorrowBook = "call bookAvailable(:bookID)";
+
+        $queryResponse = $this->databaseRequest->prepare($queryBorrowBook);
+
+        $queryResponse->execute(array(":bookID" => $bookID));
+
+        return ($queryResponse->rowCount())? $queryResponse->fetch() : false;
+    }
+
     public function login(string $userName, string $userPassword):bool
     {
         $queryLogin = "call login(:userName)";
@@ -88,7 +99,7 @@ class DatabaseQuery implements DatabaseRequests
         return ($queryResponse->rowCount())? true: false;
     }
 
-    public function deleteAccount(int $userID, string $userPassword)
+    public function deleteAccount(int $userID, string $userPassword)//not implemented this Function delete Account
     {
         $queryDeleteAccount = "deleteAccount(:userID, :userPassword)";
 
@@ -107,7 +118,7 @@ class DatabaseQuery implements DatabaseRequests
 
         $queryResponse->execute(array(":bookID" => $bookID));
 
-        return ($queryResponse->rowCount())? true: false;
+        return ($queryResponse->rowCount())? $queryResponse->fetch(\PDO::FETCH_OBJ): false;
     }
 
     public function listBooks()
@@ -130,7 +141,8 @@ class DatabaseQuery implements DatabaseRequests
 
         $queryResponse->execute();
 
-        return (bool) $queryResponse->rowCount();
+        return ($queryResponse->rowCount())?
+            $queryResponse->fetchAll(\PDO::FETCH_OBJ): false;
     }
 
     public function searchBook(string $bookName)
@@ -150,8 +162,20 @@ class DatabaseQuery implements DatabaseRequests
     {
         // TODO: Implement logout() method.
     }
+
+    public function userInfo(int $userID)
+    {
+        $querySearch = "call userInfo(:userID)";
+
+        $queryResponse = $this->databaseRequest->prepare($querySearch);
+
+        $queryResponse->execute(array(":userID" => $userID));
+
+        return ($queryResponse->rowCount())?
+            $queryResponse->fetchAll(\PDO::FETCH_OBJ): false;
+    }
 }
 
 $test = new DatabaseQuery();
-
-var_dump($test->login("DouglasValdo", "douglas.,valdo"));
+echo "<pre>";
+var_dump($test->userInfo(1));

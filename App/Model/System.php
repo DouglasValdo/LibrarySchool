@@ -21,11 +21,6 @@ class System implements DatabaseRequests
         $this->databaseQuery = new DatabaseQuery();
     }
 
-    private function bookStatus($status)
-    {
-
-    }
-
     public function login(string $userName, string $userPassword)
     {
 
@@ -75,6 +70,11 @@ class System implements DatabaseRequests
     public function searchBook(string $bookName)
     {
         // TODO: Implement searchBook() method.
+    }
+
+    public function userInfo(int $userID)
+    {
+        // TODO: Implement userInfo() method.
     }
 }
 
