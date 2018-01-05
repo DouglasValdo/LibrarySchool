@@ -8,13 +8,12 @@
 
 namespace Library\DatabaseRequests;
 
-Use Library\Users\Users;
 
 interface DatabaseRequests
 {
     public function login(string $userName, string $userPassword);
 
-    public function logout(int $userID);
+    public function logout(int $userName);
 
     public function register(array $userInfo);
 

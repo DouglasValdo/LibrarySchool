@@ -2,15 +2,17 @@
 /**
  * Created by PhpStorm.
  * User: keyersoze
- * Date: 03-01-2018
- * Time: 13:38
+ * Date: 04-01-2018
+ * Time: 18:36
  */
 
-namespace Library\System;
+namespace Library\Controller\System;
+
 
 use Library\DatabaseRequests\DatabaseRequests;
 use Library\SessionHandler\SessionHandler;
 use Library\DatabaseQuery\DatabaseQuery;
+Use Library\LibraryFunctions\Redirect;
 
 class System implements DatabaseRequests
 {
@@ -23,28 +25,44 @@ class System implements DatabaseRequests
 
     public function login(string $userName, string $userPassword)
     {
+        $isLoginValid = $this->databaseQuery->login($userName, $userPassword);
 
+        if ($isLoginValid) {
+
+            $userInfo = ["sessionID" => $isLoginValid["userName"], "data" =>$isLoginValid];
+
+            SessionHandler::call("write", $userInfo);
+
+            Redirect::url("profile.php");
+        }else {
+
+            Redirect::url("home.php");
+        }
     }
 
-    public function logout(int $userID)
+    public function logout(int $userName)
     {
-        $currentUser = SessionHandler::call("read", array("sessionID" => $userID));
+        $currentUser = SessionHandler::call("read", array("sessionID" => $userName));
 
         if(!is_null($currentUser))
-            return SessionHandler::call("delete", array("sessionID" => $userID));
+            return SessionHandler::call("delete", array("sessionID" => $userName));
         return false;
     }
 
     public function register(array $userInfo)
     {
-        // TODO: Implement register() method.
+       if($this->databaseQuery->register($userInfo))
+           $this->login($userInfo["userName"], $userInfo["userPassword"]);
+       else
+           Redirect::url("register.php?error=Nao_Foi_Possivel_Registrar");
     }
-
-
 
     public function borrowBook(int $bookID, int $userID)
     {
-        // TODO: Implement borrowBook() method.
+        $book = $this->databaseQuery->bookNotAvailable($bookID);
+        if (is_null($book["borrowerBy"]))
+            return $this->databaseQuery->borrowBook($bookID, $userID);
+        return $book;
     }
 
     public function listBooks()

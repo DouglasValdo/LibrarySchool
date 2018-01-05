@@ -8,9 +8,6 @@
 
 namespace Library\DatabaseQuery;
 
-require_once "DatabaseRequests.php";
-require_once "DatabaseConnection.php";
-require_once "LibraryFunctions.php";
 
 use Library\DatabaseConnection\DatabaseConnection;
 use Library\DatabaseRequests\DatabaseRequests;
@@ -34,7 +31,7 @@ class DatabaseQuery implements DatabaseRequests
     }
 
 
-    public function isBookAvailable($bookID)
+    public function bookNotAvailable($bookID)
     {
         $queryBorrowBook = "call bookAvailable(:bookID)";
 
@@ -45,7 +42,7 @@ class DatabaseQuery implements DatabaseRequests
         return ($queryResponse->rowCount())? $queryResponse->fetch() : false;
     }
 
-    public function login(string $userName, string $userPassword):bool
+    public function login(string $userName, string $userPassword)
     {
         $queryLogin = "call login(:userName)";
 
@@ -59,7 +56,7 @@ class DatabaseQuery implements DatabaseRequests
             $userDatabaseHashPassword = $userDatabaseData["userPassword"];
 
             if(LibraryFunctions::verifyPassword($userPassword, $userDatabaseHashPassword))
-                return true;
+                return $userDatabaseData;
             else
                 return false;
         }
@@ -71,7 +68,7 @@ class DatabaseQuery implements DatabaseRequests
     public function register(array $userInfo)
     {
         if($this->login($userInfo["userName"], $userInfo["userPassword"]))
-            die();
+            return false;
 
         $queryRegister = "call register(:userName, :userPassword, 
         :userProfileBackground, :userBooksPreferences)";
@@ -90,11 +87,12 @@ class DatabaseQuery implements DatabaseRequests
 
     public function borrowBook(int $bookID, int $userID)
     {
-        $queryBorrowBook = "call borrowBook(:bookID, :userID)";
+        $queryBorrowBook = "call borrowBook(:bookID, :userID, :borrowDate)";
 
         $queryResponse = $this->databaseRequest->prepare($queryBorrowBook);
 
-        $queryResponse->execute(array(":bookID" => $bookID, ":userID" => $userID));
+        $queryResponse->execute(array(":bookID" => $bookID, ":userID" => $userID,
+            ":borrowDate" => date(("Y-m-d"), strtotime('+ 7 days'))));
 
         return ($queryResponse->rowCount())? true: false;
     }
@@ -176,6 +174,6 @@ class DatabaseQuery implements DatabaseRequests
     }
 }
 
-$test = new DatabaseQuery();
+/*$test = new DatabaseQuery();
 echo "<pre>";
-var_dump($test->userInfo(1));
+var_dump($test->userInfo(1));*/
