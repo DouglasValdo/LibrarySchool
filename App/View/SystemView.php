@@ -8,19 +8,12 @@
 
 namespace Library\View;
 
-$path = dirname(__DIR__);
-
-use Library\Controller\System\System;
+require_once dirname(__DIR__)."/../vendor/autoload.php";
 use Library\DatabaseRequests\DatabaseRequests;
+use Library\LibraryFunctions\LibraryFunctions;
 
 class SystemView implements DatabaseRequests
 {
-    private $system;
-
-    public function __construct()
-    {
-        $this->system = new System();
-    }
 
     public function login(string $userName, string $userPassword)
     {
@@ -39,15 +32,7 @@ class SystemView implements DatabaseRequests
 
     public function borrowBook(int $bookID, int $userID)
     {
-        $book = $this->system->borrowBook($bookID, $userID);
-
-        if(is_null($book["borrowerBy"]))
-            echo "Book Borrowed Successful Return it on Date: ".date("Y-m-d", strtotime('+ 7 days'));
-        else {
-            $today = new \DateTime(date("Y-m-d"));
-            $borrowed = new \DateTime($book["status"]);
-            echo "book Borrowed it Will be Available in ".$today->diff($borrowed)->days. " Days!!!";
-        }
+        LibraryFunctions::view("borrowBook.php");
     }
 
     public function deleteAccount(int $userID, string $userPassword)
@@ -62,7 +47,7 @@ class SystemView implements DatabaseRequests
 
     public function listBooks()
     {
-        // TODO: Implement listBooks() method.
+        LibraryFunctions::view("listBooks.php");
     }
 
     public function booksCategory()
@@ -80,3 +65,7 @@ class SystemView implements DatabaseRequests
         // TODO: Implement userInfo() method.
     }
 }
+
+$test = new SystemView();
+
+$test->listBooks();

@@ -29,5 +29,14 @@ class LibraryFunctions
 
         return $borrowedDate > $todayDate;
     }
+
+    public static function view($filePath)
+    {
+        $baseDir = dirname(__DIR__)."/Templates/";
+        if(file_exists($baseDir.$filePath))
+            require_once($baseDir.$filePath);
+        else
+            die("File Don't Exist on the System.");
+    }
 }
 

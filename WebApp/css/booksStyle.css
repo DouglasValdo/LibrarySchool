@@ -1,0 +1,44 @@
+
+
+.displayBook{
+
+    margin: 0;
+    padding: 0;
+    display: inline-flex;
+}
+
+.displayBook > li{
+    list-style: none;
+    margin: 10px;
+}
+.booksView{
+    width: 180px;
+    height: 230px;
+    border: 1px solid transparent;
+    border-radius: 3px;
+}
+
+.booksViewHover{
+    background-color: rgba(60,58,88, 0.8);
+    transition: 0.2s ease-out;
+}
+
+.viewContent{
+    position: relative;
+    margin: auto;
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background-color: transparent;
+    border: 6px solid #7978DE;
+    text-align: center;
+    font-size: 25px;
+    font-family: 'Open Sans', sans-serif;
+    top: 80px;
+    color: white;
+    cursor: pointer;
+}
+.path1, .path2 {
+    fill: white;
+    width: 2px;
+}

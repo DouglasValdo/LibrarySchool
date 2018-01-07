@@ -67,7 +67,10 @@ class System implements DatabaseRequests
 
     public function listBooks()
     {
-        // TODO: Implement listBooks() method.
+        $listBooks = $this->databaseQuery->listBooks();
+
+        if($listBooks) return $listBooks;
+        return false;
     }
 
     public function booksCategory()
