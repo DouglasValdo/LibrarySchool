@@ -11,13 +11,21 @@ namespace Library\View;
 require_once dirname(__DIR__)."/../vendor/autoload.php";
 use Library\DatabaseRequests\DatabaseRequests;
 use Library\LibraryFunctions\LibraryFunctions;
+use Library\Controller\System;
 
 class SystemView implements DatabaseRequests
 {
 
+    private $controllerSystem;
+
+    public function __construct()
+    {
+        $this->controllerSystem = new System\System();
+    }
+
     public function login(string $userName, string $userPassword)
     {
-        // TODO: Implement login() method.
+        $this->controllerSystem->login($userName, $userPassword);
     }
 
     public function logout(int $userName)
@@ -42,7 +50,7 @@ class SystemView implements DatabaseRequests
 
     public function viewBook(int $bookID)
     {
-        // TODO: Implement viewBook() method.
+
     }
 
     public function listBooks()
@@ -52,7 +60,7 @@ class SystemView implements DatabaseRequests
 
     public function booksCategory()
     {
-        // TODO: Implement booksCategory() method.
+        LibraryFunctions::view("bookCategory.php");
     }
 
     public function searchBook(string $bookName)
@@ -64,8 +72,14 @@ class SystemView implements DatabaseRequests
     {
         // TODO: Implement userInfo() method.
     }
+
+    function userBooks()
+    {
+        LibraryFunctions::view("userBooks.php");
+    }
+
+    public function listBookByCategory(string $bookCategory)
+    {
+        // TODO: Implement listBookByCategory() method.
+    }
 }
-
-$test = new SystemView();
-
-$test->listBooks();

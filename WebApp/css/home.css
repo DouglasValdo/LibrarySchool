@@ -1,0 +1,173 @@
+
+body{
+    margin: 0;
+    padding: 0;
+    min-width: 1224px;
+}
+.menu-header{
+    position: relative;
+    width: inherit;
+    height: 100px;
+    background-color: red;
+}
+
+.category-div, .search-div, .profile-div{
+    height: 120px;
+}
+.category-bar, .books-listed, .user-info{
+    height: 850px;
+}
+
+.category-bar{
+    background-color: #F2F2F0;
+}
+.category-div{
+    background-color: #FF5E3A;
+}
+.profile-div{
+    background-color: #131B3C;
+}
+.siteName{
+    font-family: 'Fascinate', cursive;
+    height: 100px;
+    font-size: 30px;
+    color: white;
+    font-weight: bold;
+    width: 230px;
+    position: relative;
+    margin: auto;
+}
+
+.user-profile{
+    font-family: 'Open Sans', sans-serif;
+    height: 100px;
+    font-size: 30px;
+    color: white;
+    width: 160px;
+    position: relative;
+    margin: auto;
+}
+.book, .userIcon{
+    position: relative;
+    top: 42px;
+    left: 10px;
+}
+.siteTitle, .profileTitle{
+    width: 200px;
+    position: relative;
+    left: 50px;
+    text-transform: uppercase;
+}
+
+.user-info{
+    background-color: #262E4F;
+}
+
+.content > .image{
+    width: 200px;
+    height: 250px;
+}
+.bookDescription{
+    font-size: 20px;
+    text-align: justify;
+    padding: 20px;
+}
+
+.bookGetByLetter{
+    width: 1095px;
+    margin: auto;
+    height: 45px;
+    padding-top: 15px;
+    padding-left: 0;
+    padding-right: 0;
+    border-bottom: 2px solid rgba(0, 0, 0, 0.2);
+}
+
+.displayBookLetter{
+    height: 70px;
+    padding-top: 10px;
+
+}
+.bookGetByLetter > li{
+    position: relative;
+    font-size: 23px;
+    list-style: none;
+    display: inline;
+    color:rgba(0, 0, 0, 0.5);
+    margin: 7px;
+    border-bottom: 2px solid rgba(225, 225, 225, 0.2);
+    padding: 5px;
+    cursor: pointer;
+    transition: .2s ease-in;
+}
+
+.bookGetByLetter > li:hover{
+    background-color: rgba(255,94,58, 0.5);
+    border-bottom-color: rgba(255,94,58, 0.5);
+    color: white;
+}
+
+.bookDontExt{
+    color: rgba(0, 0, 0, 0.5);
+    width: 500px;
+    margin: auto;
+    font-size: 60px;
+    position: relative;
+    top: 170px;
+    height: 130px;
+}
+
+.categoryContent{
+    margin: 0;
+    padding: 0;
+}
+.catgoryList{
+    font-family: 'Open Sans', sans-serif;
+    display: list-item;
+    list-style: none;
+    height: 60px;
+    margin: 10px 0 10px 0;
+    padding: 10px 0 0 35px;
+    cursor: pointer;
+    border: 0 solid transparent;
+    border-right-width: 2px;
+    background-color: transparent;
+    transition: .3s ease-out;
+    color: rgba(0, 0, 0, 0.4);
+}
+
+.catgoryList > a > p{
+    font-size: 20px;
+    height: 100%;
+    width: 100%;
+    color: rgba(0, 0, 0, 0.7);
+}
+
+.catgoryList:hover{
+    background-color: rgba(189,195,199, .2);
+    border-right-color: rgba(255,94,58, 0.9);
+    color: white;
+    margin-left: 5px;
+}
+
+.catgoryList> a{
+    color: rgba(0, 0, 0, 0.7);
+}
+.catgoryList> a:link {
+    color: rgba(255,94,58, 0.9);
+}
+
+/* visited link */
+.catgoryList> a:visited {
+    color: white;
+}
+
+/* mouse over link */
+.catgoryList> a:hover {
+    color: white;
+}
+
+/* selected link */
+.catgoryList> a:active {
+    color: rgba(255,94,58, 0.9);
+}

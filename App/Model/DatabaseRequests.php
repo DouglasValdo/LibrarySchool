@@ -31,6 +31,8 @@ interface DatabaseRequests
 
     public function userInfo(int $userID);
 
+    public function listBookByCategory(string $bookCategory);
+
 }
 
 

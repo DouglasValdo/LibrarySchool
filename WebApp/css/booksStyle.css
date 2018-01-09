@@ -4,18 +4,25 @@
 
     margin: 0;
     padding: 0;
-    display: inline-flex;
+    width: 100%;
+    display: table;
+    table-layout: fixed;
+
 }
 
 .displayBook > li{
     list-style: none;
     margin: 10px;
-}
-.booksView{
     width: 180px;
     height: 230px;
     border: 1px solid transparent;
     border-radius: 3px;
+    position: relative;
+    float: left;
+}
+.booksView{
+    width: inherit;
+    height: inherit;
 }
 
 .booksViewHover{
@@ -41,4 +48,15 @@
 .path1, .path2 {
     fill: white;
     width: 2px;
+}
+
+.bookStatusInfo{
+    font-size: 32px;
+    text-align: center;
+}
+.mini{
+    font-family: 'Open Sans', sans-serif;
+}
+.header{
+    text-align: center;
 }

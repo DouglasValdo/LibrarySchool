@@ -2,13 +2,15 @@
 
 $(document).ready(function () {
 
-    $(".booksView").hover(function () {
+    $(".booksView").on('hover', function () {
 
         $(this).addClass("booksViewHover");
 
         $("<div>",{class:"viewContent"}).appendTo(this);
 
-        $("<p>", {class: 'viewBook'}).appendTo(".viewContent").html(svg());
+        $("<p>", {class: 'viewBook'}).appendTo(".viewContent");
+
+        $("<i>",{class : "add to cart icon"}).appendTo(".viewContent");
 
 
 
@@ -21,62 +23,53 @@ $(document).ready(function () {
             $(this).empty();
         }
     });
+
+    $(".showModal").click(function () {
+        showBookAvailable(1, 1);
+
+    });
 });
 
-function svg() {
+function showBookAvailable(bookId, userID) {
 
-    return "<?xml version=\"1.0\" encoding=\"iso-8859-1\"?>\n" +
-        "<!-- Generator: Adobe Illustrator 19.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->\n" +
-        "<svg version=\"1.1\" id=\"Layer_1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" x=\"0px\" y=\"0px\"\n" +
-        "\t viewBox=\"0 0 512.001 512.001\" style=\"enable-background:new 0 0 512.001 512.001;width: 40px;top: -5px; position: relative;\" xml:space=\"preserve\">\n" +
-        "<g>\n" +
-        "\t<g>\n" +
-        "\t\t<path class='path1' d=\"M503.698,231.895c-28.735-36.843-65.956-67.318-107.637-88.128c-42.548-21.243-88.321-32.265-136.104-32.843\n" +
-        "\t\t\tc-1.316-0.036-6.6-0.036-7.916,0c-47.782,0.579-93.556,11.6-136.104,32.843c-41.681,20.81-78.9,51.284-107.636,88.128\n" +
-        "\t\t\tc-11.07,14.193-11.07,34.018,0,48.211c28.735,36.843,65.955,67.318,107.636,88.128c42.548,21.243,88.321,32.265,136.104,32.843\n" +
-        "\t\t\tc1.316,0.036,6.6,0.036,7.916,0c47.782-0.579,93.556-11.6,136.104-32.843c41.681-20.81,78.901-51.284,107.637-88.128\n" +
-        "\t\t\tC514.768,265.911,514.768,246.088,503.698,231.895z M125.242,349.599c-38.92-19.432-73.678-47.892-100.517-82.303\n" +
-        "\t\t\tc-5.187-6.651-5.187-15.94,0-22.591c26.838-34.411,61.596-62.871,100.517-82.303c11.054-5.518,22.342-10.29,33.839-14.33\n" +
-        "\t\t\tc-29.578,26.588-48.213,65.12-48.213,107.928c0,42.81,18.636,81.345,48.217,107.932\n" +
-        "\t\t\tC147.588,359.892,136.297,355.118,125.242,349.599z M256,380.303c-68.542,0-124.304-55.762-124.304-124.304\n" +
-        "\t\t\tS187.458,131.696,256,131.696S380.304,187.458,380.304,256S324.542,380.303,256,380.303z M487.275,267.295\n" +
-        "\t\t\tc-26.838,34.411-61.596,62.871-100.517,82.303c-11.041,5.512-22.322,10.263-33.805,14.299\n" +
-        "\t\t\tc29.558-26.587,48.179-65.107,48.179-107.898c0-42.814-18.64-81.351-48.223-107.939c11.5,4.041,22.793,8.819,33.85,14.34\n" +
-        "\t\t\tc38.92,19.432,73.678,47.892,100.517,82.303C492.462,251.355,492.462,260.644,487.275,267.295z\"/>\n" +
-        "\t</g>\n" +
-        "</g>\n" +
-        "<g>\n" +
-        "\t<g>\n" +
-        "\t\t<path class='path1' d=\"M256,202.804c-29.332,0-53.195,23.863-53.195,53.195s23.863,53.195,53.195,53.195s53.195-23.863,53.195-53.195\n" +
-        "\t\t\tC309.196,226.667,285.333,202.804,256,202.804z M256,288.367c-17.847,0-32.368-14.519-32.368-32.368\n" +
-        "\t\t\tc0-17.848,14.519-32.367,32.368-32.367c17.847,0,32.367,14.519,32.367,32.367C288.368,273.848,273.847,288.367,256,288.367z\"/>\n" +
-        "\t</g>\n" +"</g>\n" +"<g>\n" +"</g>\n" +"<g>\n" +
-        "</g>\n" +
-        "<g>\n" +
-        "</g>\n" +
-        "<g>\n" +
-        "</g>\n" +
-        "<g>\n" +
-        "</g>\n" +
-        "<g>\n" +
-        "</g>\n" +
-        "<g>\n" +
-        "</g>\n" +
-        "<g>\n" +
-        "</g>\n" +
-        "<g>\n" +
-        "</g>\n" +
-        "<g>\n" +
-        "</g>\n" +
-        "<g>\n" +
-        "</g>\n" +
-        "<g>\n" +
-        "</g>\n" +
-        "<g>\n" +
-        "</g>\n" +
-        "<g>\n" +
-        "</g>\n" +
-        "<g>\n" +
-        "</g>\n" +
-        "</svg>\n"
+    $.ajax({
+        method: 'post',
+        url : '../App/Templates/borrowBook.php',
+        data: {bookID : bookId, userID: userID},
+
+        success: function (result) {
+            modalInfo(result);
+        },
+        error: function () {
+            alert("Some error as Occurs!");
+        }
+    })
+}
+
+function BorrowBook() {
+
+    var modal = $("<div>", {class: "ui modal mini"}).appendTo("body"),
+        header = $("<div>", {class: "header"}).appendTo(modal).html("Borrow Book"),
+        content = $("<div>", {class: "content"}).appendTo(modal),
+        pText = $("<p>", {text: "Do you Want to Borrow This Book?"}).appendTo(content),
+        actionContent = $("<div>", {class: "actions"}).appendTo(modal),
+        btnApprove = $("<div>", {class: "ui positive right labeled icon button"}).appendTo(actionContent).html("Yes"),
+        btnAprroveIcon = $("<i>", {class: "checkmark icon"}).appendTo(btnApprove),
+        btnCancel = $("<div>", {class: "ui negative button"}).appendTo(actionContent).html("No");
+
+    $(modal).modal({closable : false}).modal('show');
+}
+
+function modalInfo(textInfo) {
+
+    var modal = $("<div>", {class: "ui modal mini"}).appendTo("body"),
+        header = $("<div>", {class: "header"}).appendTo(modal).html("Book Status"),
+        content = $("<div>", {class: "content"}).appendTo(modal),
+        pText = $("<p>", {text: textInfo, class:'bookStatusInfo'}).appendTo(content),
+        actionContent = $("<div>", {class: "actions"}).appendTo(modal),
+        btnApprove = $("<div>", {class: "ui positive right labeled icon button"}).appendTo(actionContent).html("Close"),
+        btnAprroveIcon = $("<i>", {class: "checkmark icon"}).appendTo(btnApprove);
+
+    $(modal).modal({closable : false}).modal('show');
+
 }

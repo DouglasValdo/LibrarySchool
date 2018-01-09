@@ -30,6 +30,16 @@ class DatabaseQuery implements DatabaseRequests
 
     }
 
+    public function userBooks($userID)
+    {
+        $queryBorrowBook = "call userBooks(:userID)";
+
+        $queryResponse = $this->databaseRequest->prepare($queryBorrowBook);
+
+        $queryResponse->execute(array(":userID" => $userID));
+
+        return ($queryResponse->rowCount())? $queryResponse->fetchAll(\PDO::FETCH_OBJ) : false;
+    }
 
     public function bookNotAvailable($bookID)
     {
@@ -168,6 +178,18 @@ class DatabaseQuery implements DatabaseRequests
         $queryResponse = $this->databaseRequest->prepare($querySearch);
 
         $queryResponse->execute(array(":userID" => $userID));
+
+        return ($queryResponse->rowCount())?
+            $queryResponse->fetchAll(\PDO::FETCH_OBJ): false;
+    }
+
+    public function listBookByCategory(string $bookCategory)
+    {
+        $querySearch = "call bookByCategory(:bookCategory)";
+
+        $queryResponse = $this->databaseRequest->prepare($querySearch);
+
+        $queryResponse->execute(array(":bookCategory" => $bookCategory));
 
         return ($queryResponse->rowCount())?
             $queryResponse->fetchAll(\PDO::FETCH_OBJ): false;

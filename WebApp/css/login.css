@@ -1,0 +1,22 @@
+
+body{
+    margin: 0;
+    padding: 0;
+}
+
+.global-container{
+    position: relative;
+    max-width: content-box;
+    min-width: 960px;
+    height: 100%;
+    background-color: #262E4F;
+}
+
+.container{
+    position: relative;
+    min-width: 900px;
+    max-width: 900px;
+    height: 600px;
+    margin: auto;
+    top: 200px;
+}
