@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>test</head>
+<body>
+<style type="text/css">
+	.content {
+	  width: inherit;
+	  height: inherit;
+	  min-height: 200px;
+	  background: green;
+	}
+
+	.generic {
+	  width: 150px;
+	  height: 100%;
+	  display: inline-block;
+	  border: 1px solid red;
+	  padding: 1px;
+	  float: left;
+	}
+</style>
+
+<div class="containt">
+  <div class="content">
+    <div class="firstItem generic">
+      <p>
+        valdo
+      </p>
+      <p>
+        valdo
+      </p>
+      <p>
+        valdo
+      </p>
+      <p>
+        valdo
+      </p>
+      <p>
+        valdo
+      </p>
+      <p>
+        valdo
+      </p>
+      <p>
+        valdo
+      </p>
+      <p>
+        valdo
+      </p>
+      <p>
+        valdo
+      </p>
+      <p>
+        valdo
+      </p>
+    </div>
+    <div class="SecondItem generic">
+      <p>
+        varela
+      </p>
+    </div>
+    <div class="ThirdItem generic">
+      <p>
+        vieira
+      </p>
+    </div>
+  </div>
+</div>
+</body>
+<script
+  src="https://code.jquery.com/jquery-2.2.4.min.js"
+  integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
+  crossorigin="anonymous"></script>
+<script type="text/javascript">
+function setSameHeight() {
+
+  var fristHeight = $(".firstItem").height(),
+    secondHeight = $(".SecondItem").height(),
+    thirdHeight = $(".ThirdItem").height(),
+    max = Math.max(fristHeight, secondHeight, thirdHeight);
+
+  $(".generic").height(max);
+
+}
+
+setSameHeight();
+</script>
+</html>
